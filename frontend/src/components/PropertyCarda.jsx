@@ -79,20 +79,6 @@ const PropertyCard = ({ card }) => {
           <span>{truncate(card.propertyLocation || 'Location unavailable', { length: 40 })}</span>
         </div>
 
-        {/* <div className="property-features">
-          <div className="feature">
-            <FaBed className="feature-icon" />
-            <span>{card.beds || '3'} Beds</span>
-          </div>
-          <div className="feature">
-            <FaBath className="feature-icon" />
-            <span>{card.baths || '2'} Baths</span>
-          </div>
-          <div className="feature">
-            <FaRulerCombined className="feature-icon" />
-            <span>{card.size || '1,200'} sqft</span>
-          </div>
-        </div> */}
       </div>
     </div>
   );
