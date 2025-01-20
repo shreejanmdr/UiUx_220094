@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { 
+import {
   Box,
-  Container,
   Grid,
   Typography,
   Card,
@@ -20,7 +19,7 @@ import {
   Avatar,
   CircularProgress,
   Stack,
-  IconButton
+  IconButton,
 } from '@mui/material';
 import {
   Phone as PhoneIcon,
@@ -30,10 +29,12 @@ import {
   CalendarToday as CalendarIcon,
   Visibility as VisibilityIcon,
   Edit as EditIcon,
-  Star as StarIcon
+  Star as StarIcon,
 } from '@mui/icons-material';
 import { createBooking, getSingleProperty, getUserProfileApi, getReviewsApi, addReviewApi } from '../../../apis/Api';
 import { toast } from 'react-toastify';
+import ContactUs from '../../contactUs/ContactUs';
+import { FaPhone, FaPhoneAlt } from 'react-icons/fa';
 
 const ViewProperty = () => {
   const { id } = useParams();
@@ -46,7 +47,7 @@ const ViewProperty = () => {
     email: '',
     phone: '',
     date: '',
-    time: ''
+    time: '',
   });
   const [minDate, setMinDate] = useState('');
   const [minTime, setMinTime] = useState('');
@@ -63,22 +64,21 @@ const ViewProperty = () => {
         const [propertyRes, userRes, reviewsRes] = await Promise.all([
           getSingleProperty(id),
           getUserProfileApi(),
-          getReviewsApi(id)
+          getReviewsApi(id),
         ]);
 
         setProperty(propertyRes.data.property);
         const { firstName, lastName, email, phone } = userRes.data;
-        setBookingForm(prev => ({
+        setBookingForm((prev) => ({
           ...prev,
           name: `${firstName} ${lastName}`,
           email,
-          phone
+          phone,
         }));
         setReviews(reviewsRes.data.reviews);
         calculateAverageRating(reviewsRes.data.reviews);
       } catch (error) {
-        toast.error("Failed to load property details");
-        console.error(error);
+        toast.error('Failed to load property details');
       } finally {
         setLoading(false);
       }
@@ -106,7 +106,7 @@ const ViewProperty = () => {
         userId: user._id,
         propertyId: id,
         date: bookingForm.date,
-        time: bookingForm.time
+        time: bookingForm.time,
       };
       await createBooking(bookingData);
       setShowBookingModal(false);
@@ -119,7 +119,7 @@ const ViewProperty = () => {
 
   const submitReview = async () => {
     if (!rating || !newReview) {
-      toast.error("Please provide both rating and comment");
+      toast.error('Please provide both rating and comment');
       return;
     }
 
@@ -130,9 +130,9 @@ const ViewProperty = () => {
       setReviews(updatedReviews.data.reviews);
       calculateAverageRating(updatedReviews.data.reviews);
       setRating(1);
-      setNewReview("");
+      setNewReview('');
     } catch (err) {
-      toast.error("Failed to submit review");
+      toast.error('Failed to submit review');
     }
   };
 
@@ -153,46 +153,124 @@ const ViewProperty = () => {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4, mt : 6}}>
+    <Box sx={{ py: 10, px: 5, bgcolor: '#f0f4f8', minHeight: '100vh' }}>
       <Grid container spacing={4}>
         {/* Property Image and Basic Info */}
         <Grid item xs={12} md={8}>
-          <Card elevation={3}>
+          <Card elevation={4} sx={{ borderRadius: 3 }}>
             <CardMedia
               component="img"
               height="400"
               image={`http://localhost:5000/property/${property.propertyImage}`}
               alt={property.propertyTitle}
-              sx={{ objectFit: 'cover' }}
+              sx={{ objectFit: 'cover', borderRadius: '12px 12px 0 0' }}
             />
             <CardContent>
-              <Typography variant="h4" gutterBottom>{property.propertyTitle}</Typography>
-              <Typography variant="h5" color="error" gutterBottom>
+              <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: '#0778e9' }}>
+                {property.propertyTitle}
+              </Typography>
+              <Typography variant="h5" color="083775"  gutterBottom>
                 Rs {property.propertyPrice.toLocaleString()}
               </Typography>
-              <Typography variant="body1">{property.propertyDescription}</Typography>
-              <Stack direction="row" spacing={2} alignItems="center">
-                <LocationIcon color="action" />
+              <Typography variant="body1" sx={{ color: '#555' }}>
+                {property.propertyDescription}
+              </Typography>
+              <Stack direction="row" spacing={1} alignItems="center" mt={2}>
+                <LocationIcon color="primary" />
                 <Typography variant="body1">{property.propertyLocation}</Typography>
               </Stack>
             </CardContent>
           </Card>
+
+          {/* Reviews Section */}
+          <Box mt={4}>
+            <Paper elevation={4} sx={{ p: 4, borderRadius: 3 }}>
+              <Typography variant="h5" gutterBottom>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <span style={{ fontWeight: 'bold' }}>Customer Reviews</span>
+                </Stack>
+              </Typography>
+              <Box display="flex" alignItems="center" gap={1} mb={3}>
+                <Rating value={averageRating} precision={0.5} readOnly />
+                <Typography>({averageRating.toFixed(1)})</Typography>
+              </Box>
+
+              {/* Review List */}
+              <Stack spacing={2}>
+                {reviews.length > 0 ? (
+                  reviews.map((review, index) => (
+                    <Paper key={index} elevation={2} sx={{ p: 2, borderRadius: 3 }}>
+                      <Stack direction="row" spacing={2} alignItems="center">
+                        <Avatar sx={{ bgcolor: 'primary.main' }}>
+                          {review.userId?.firstName?.[0] || 'U'}
+                        </Avatar>
+                        <Box>
+                          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                            {review.userId?.firstName || 'Unknown'} {review.userId?.lastName || ''}
+                          </Typography>
+                          <Rating value={review.rating} size="small" readOnly />
+                        </Box>
+                      </Stack>
+                      <Typography variant="body1" sx={{ mt: 1 }}>
+                        {review.comment || 'No comment provided.'}
+                      </Typography>
+                    </Paper>
+                  ))
+                ) : (
+                  <Typography variant="body1">No reviews yet.</Typography>
+                )}
+              </Stack>
+
+              {/* Add Review Section */}
+              <Box mt={4}>
+                <Typography variant="h6" gutterBottom>
+                  <Stack direction="row" spacing={1} alignItems="center">
+                    <EditIcon color="primary" />
+                    <span style={{ fontWeight: 'bold' }}>Add a Review</span>
+                  </Stack>
+                </Typography>
+                <Stack spacing={2}>
+                  <TextField
+                    multiline
+                    rows={4}
+                    value={newReview}
+                    onChange={(e) => setNewReview(e.target.value)}
+                    placeholder="Write your review here"
+                    fullWidth
+                  />
+                  <Box display="flex" alignItems="center" gap={2}>
+                    <Typography > 
+                    <span style={{ fontWeight: 'bold' }}>Rating :</span></Typography>
+                    <Rating value={rating} onChange={(_, newValue) => setRating(newValue)} />
+                  </Box>
+                  <Button
+                    variant="contained"
+                    onClick={submitReview}
+                    sx={{ bgcolor: '#083775', '&:hover': { bgcolor: '#0D76F6FF' } }}
+                    startIcon={<EditIcon />}
+                  >
+                    Submit Review
+                  </Button>
+                </Stack>
+              </Box>
+            </Paper>
+          </Box>
         </Grid>
 
         {/* Property Details Card */}
         <Grid item xs={12} md={4}>
-          <Card elevation={3}>
+          <Card elevation={4} sx={{ borderRadius: 3, bgcolor: '#fff' }}>
             <CardContent>
-              <Typography variant="h6" gutterBottom>Property Details</Typography>
+              <Typography variant="h6" gutterBottom>
+                Property Details
+              </Typography>
               <Stack spacing={2}>
                 <Box display="flex" alignItems="center" gap={1}>
-                  <CalendarIcon color="action" />
-                  <Typography>
-                    Added: {new Date(property.createdAt).toLocaleDateString()}
-                  </Typography>
+                  <CalendarIcon color="primary" />
+                  <Typography>Added: {new Date(property.createdAt).toLocaleDateString()}</Typography>
                 </Box>
                 <Box display="flex" alignItems="center" gap={1}>
-                  <VisibilityIcon color="action" />
+                  <VisibilityIcon color="primary" />
                   <Typography>Views: {property.views}</Typography>
                 </Box>
                 <Divider />
@@ -202,7 +280,7 @@ const ViewProperty = () => {
                     startIcon={<PhoneIcon />}
                     onClick={() => setShowCallModal(true)}
                     fullWidth
-                    sx={{ bgcolor: 'success.main' }}
+                    sx={{ bgcolor: 'success.main', '&:hover': { bgcolor: 'success.dark' } }}
                   >
                     Call
                   </Button>
@@ -211,7 +289,7 @@ const ViewProperty = () => {
                     startIcon={<BookIcon />}
                     onClick={() => setShowBookingModal(true)}
                     fullWidth
-                    sx={{ bgcolor: '#083775' }}
+                    sx={{ bgcolor: '#083775', '&:hover': { bgcolor: '#062c59' } }}
                   >
                     Book
                   </Button>
@@ -219,131 +297,39 @@ const ViewProperty = () => {
               </Stack>
             </CardContent>
           </Card>
+
+          {/* Contact Us Section */}
+          <Box mt={4}>
+            <ContactUs />
+          </Box>
         </Grid>
-
-        {/* Reviews Section */}
-  {/* Reviews Section */}
-<Grid item xs={12}>
-  <Paper elevation={3} sx={{ p: 3 }}>
-    <Typography variant="h5" gutterBottom>
-      <Stack direction="row" spacing={1} alignItems="center">
-        <StarIcon color="action" />
-        <span>Customer Reviews</span>
-      </Stack>
-    </Typography>
-    <Box display="flex" alignItems="center" gap={1} mb={3}>
-      <Rating value={averageRating} precision={0.5} readOnly />
-      <Typography>({averageRating.toFixed(1)})</Typography>
-    </Box>
-
-    {/* Review List */}
-    <Stack spacing={2}>
-      {reviews && reviews.length > 0 ? (
-        reviews.map((review, index) => (
-          <Paper key={index} elevation={1} sx={{ p: 2 }}>
-            <Stack direction="row" spacing={2} alignItems="center">
-              <Avatar sx={{ bgcolor: '#083775' }}>
-                {review.userId?.firstName?.[0] || 'U'}
-              </Avatar>
-              <Box>
-                <Typography variant="subtitle1">
-                  {review.userId?.firstName || 'Unknown'} {review.userId?.lastName || ''}
-                </Typography>
-                <Rating value={review.rating} size="small" readOnly />
-              </Box>
-            </Stack>
-            <Typography variant="body1" sx={{ mt: 1 }}>
-              {review.comment || 'No comment provided.'}
-            </Typography>
-          </Paper>
-        ))
-      ) : (
-        <Typography variant="body1">No reviews yet.</Typography>
-      )}
-    </Stack>
-
-    {/* Add Review Section */}
-    <Box mt={4}>
-      <Typography variant="h6" gutterBottom>
-        <Stack direction="row" spacing={1} alignItems="center">
-          <EditIcon color="action" />
-          <span>Add a Review</span>
-        </Stack>
-      </Typography>
-      <Stack spacing={2}>
-        <TextField
-          multiline
-          rows={4}
-          value={newReview}
-          onChange={(e) => setNewReview(e.target.value)}
-          placeholder="Write your review here"
-          fullWidth
-        />
-        <Box display="flex" alignItems="center" gap={2}>
-          <Typography>Rating:</Typography>
-          <Rating
-            value={rating}
-            onChange={(_, newValue) => setRating(newValue)}
-          />
-        </Box>
-        <Button
-          variant="contained"
-          onClick={submitReview}
-          sx={{ bgcolor: '#083775', alignSelf: 'flex-start' }}
-          startIcon={<EditIcon />}
-        >
-          Submit Review
-        </Button>
-      </Stack>
-    </Box>
-  </Paper>
-</Grid>
-
       </Grid>
 
+      {/* Call and Booking Modals */}
       {/* Call Modal */}
       <Dialog open={showCallModal} onClose={() => setShowCallModal(false)}>
         <DialogTitle>
-          <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Stack direction="row" spacing={1} alignItems="center">
-              <PhoneIcon color="action" />
-              <span>Contact Information</span>
-            </Stack>
+          <Box display="flex" justifyContent="space-between">
+            <Typography variant="h6">Contact Information</Typography>
             <IconButton onClick={() => setShowCallModal(false)}>
               <CloseIcon />
             </IconButton>
           </Box>
         </DialogTitle>
         <DialogContent>
-          <Box textAlign="center" py={2}>
-            <img
-              src="/assets/images/call.png"
-              alt="call"
-              style={{ width: 100, height: 100, objectFit: 'cover' }}
-            />
-            <Typography variant="h4" sx={{ my: 2 }}>
-              +977 9841297471
-            </Typography>
-            <Typography variant="body1">
-              Make a call, get your property booked.
-            </Typography>
-          </Box>
+          <Typography variant="h5" align="center" gutterBottom>
+            <FaPhoneAlt color="primary" /> 
+            +977 9876543210
+          </Typography>
+          <Typography align="center">Make a call to book this property now.</Typography>
         </DialogContent>
       </Dialog>
 
       {/* Booking Modal */}
-      <Dialog 
-        open={showBookingModal} 
-        onClose={() => setShowBookingModal(false)}
-        fullWidth
-        maxWidth="sm"
-      >
+      <Dialog open={showBookingModal} onClose={() => setShowBookingModal(false)}>
         <DialogTitle>
-          <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Stack direction="row" spacing={1} alignItems="center">
-              <BookIcon sx={{ color: '#083775' }} />
-              <Typography variant="h6" color="#083775">Book Property</Typography>
-            </Stack>
+          <Box display="flex" justifyContent="space-between">
+            <Typography variant="h6">Book Property</Typography>
             <IconButton onClick={() => setShowBookingModal(false)}>
               <CloseIcon />
             </IconButton>
@@ -355,7 +341,7 @@ const ViewProperty = () => {
               <TextField
                 label="Name"
                 value={bookingForm.name}
-                onChange={(e) => setBookingForm(prev => ({ ...prev, name: e.target.value }))}
+                onChange={(e) => setBookingForm((prev) => ({ ...prev, name: e.target.value }))}
                 fullWidth
                 required
               />
@@ -363,7 +349,7 @@ const ViewProperty = () => {
                 label="Email"
                 type="email"
                 value={bookingForm.email}
-                onChange={(e) => setBookingForm(prev => ({ ...prev, email: e.target.value }))}
+                onChange={(e) => setBookingForm((prev) => ({ ...prev, email: e.target.value }))}
                 fullWidth
                 required
               />
@@ -371,7 +357,7 @@ const ViewProperty = () => {
                 label="Phone"
                 type="tel"
                 value={bookingForm.phone}
-                onChange={(e) => setBookingForm(prev => ({ ...prev, phone: e.target.value }))}
+                onChange={(e) => setBookingForm((prev) => ({ ...prev, phone: e.target.value }))}
                 fullWidth
                 required
               />
@@ -379,7 +365,7 @@ const ViewProperty = () => {
                 label="Preferred Date"
                 type="date"
                 value={bookingForm.date}
-                onChange={(e) => setBookingForm(prev => ({ ...prev, date: e.target.value }))}
+                onChange={(e) => setBookingForm((prev) => ({ ...prev, date: e.target.value }))}
                 InputLabelProps={{ shrink: true }}
                 inputProps={{ min: minDate }}
                 fullWidth
@@ -389,26 +375,20 @@ const ViewProperty = () => {
                 label="Preferred Time"
                 type="time"
                 value={bookingForm.time}
-                onChange={(e) => setBookingForm(prev => ({ ...prev, time: e.target.value }))}
+                onChange={(e) => setBookingForm((prev) => ({ ...prev, time: e.target.value }))}
                 InputLabelProps={{ shrink: true }}
                 inputProps={{ min: minTime }}
                 fullWidth
                 required
               />
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{ bgcolor: '#083775' }}
-                fullWidth
-                startIcon={<BookIcon />}
-              >
+              <Button type="submit" variant="contained" fullWidth sx={{ bgcolor: '#083775', '&:hover': { bgcolor: '#062c59' } }}>
                 Submit Booking
               </Button>
             </Stack>
           </Box>
         </DialogContent>
       </Dialog>
-    </Container>
+    </Box>
   );
 };
 
