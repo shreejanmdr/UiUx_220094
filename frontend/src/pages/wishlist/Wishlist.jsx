@@ -1,5 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { FaBook, FaTrash } from 'react-icons/fa';
+import {
+  Container,
+  Typography,
+  Grid,
+  Card,
+  CardMedia,
+  CardContent,
+  CardActions,
+  Button,
+  IconButton,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Box,
+} from '@mui/material';
+import { FaAd, FaBook, FaBookOpen, FaHouseUser, FaTrash } from 'react-icons/fa';
+import { MdLocationOn } from "react-icons/md";
 import { toast } from 'react-toastify';
 import { createBooking, getUserProfileApi, getUserWishlistApi, removeFromWishlistApi } from '../../apis/Api';
 
@@ -108,86 +126,125 @@ const Wishlist = () => {
   };
 
   return (
-    <>
-      <div className="container mt-5" style={{marginBottom: '50px'}}>
-        <h2>My Wishlist</h2>
-        {error && <p className="text-danger">{error}</p>}
-        {wishlist.length === 0 ? (
-          <p>Your wishlist is empty.</p>
-        ) : (
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px'}}>
-            {wishlist.map((property) => (
-              <div key={property._id} className="col-md-4" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', border: '1px solid #ddd', padding: '10px', borderRadius: '5px', width: '300px', position: 'relative', backgroundColor: '#fff', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', width: '100%' }} />
-                <img
-                  src={`http://localhost:5000/property/${property.propertyImage}`}
+    <Container sx={{ marginTop: 5, marginBottom: 5 }}>
+      <Typography variant="h4" gutterBottom textAlign="center" sx={{ fontWeight: 'bold', color: '#083775' }}>
+        My Wishlist
+      </Typography>
+      {error && <Typography color="error" textAlign="center">{error}</Typography>}
+      {wishlist.length === 0 ? (
+        <Typography textAlign="center" sx={{ fontStyle: 'italic', marginTop: 3 }}>
+          Your wishlist is empty.
+        </Typography>
+      ) : (
+        <Grid container spacing={3} justifyContent="center">
+          {wishlist.map((property) => (
+            <Grid item xs={12} sm={6} md={4} key={property._id}>
+              <Card sx={{ boxShadow: 3, borderRadius: 2 }}>
+                <CardMedia
+                  component="img"
+                  height="200"
+                  image={`http://localhost:5000/property/${property.propertyImage}`}
                   alt={property.propertyTitle}
-                  style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '5px 5px 0 0' }}
                 />
-                <div style={{ padding: '10px', textAlign: 'center' }}>
-                  <h4>{property.propertyTitle}</h4>
-                  <p className='text-danger'>
-                    Rs {property.propertyPrice}</p>
-                  <p>{property.propertyLocation}</p>
-                  <button
-                    style={{ marginTop: '10px', backgroundColor: '#083775', color: 'white', border: 'none', padding: '5px 10px', borderRadius: '5px', cursor: 'pointer' }}
+                <CardContent>
+                  <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#0778e9'}}>
+                    {property.propertyTitle}
+                  </Typography>
+                  <Typography color="error" variant="body1" sx={{ fontWeight: 'bold',color: '#333' }}>
+                    Rs {property.propertyPrice}
+                  </Typography>
+                  
+                  <Typography variant="body2" color="textSecondary">
+                  <MdLocationOn className="location-icon" />
+                    {property.propertyLocation}
+                  </Typography>
+                </CardContent>
+                <CardActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Button
+                    startIcon={<FaHouseUser />}
                     onClick={() => handleBookClick(property)}
+                    sx={{
+                      backgroundColor: '#083775',
+                      color: 'white',
+                      width: '100%',
+                      '&:hover': { backgroundColor: '#257CE8FF' },
+                    }}
                   >
-                    <FaBook /> Book
-                  </button>
-                </div>
-                <button
-                  style={{ position: 'absolute', top: '10px', right: '10px', background: 'none', border: 'none', color: 'red', cursor: 'pointer' }}
-                  onClick={() => handleRemove(property._id)}
-                >
-                  <FaTrash />
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {showBookingModal && (
-        <div className="modal fade show" style={{ display: 'block' }}>
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" style={{ color: '#083775', alignContent: 'center' }}>Book Property</h5>
-                <button type="button" className="btn-close" onClick={() => setShowBookingModal(false)}></button>
-              </div>
-              <div className="modal-body">
-                <form onSubmit={handleBookingSubmit}>
-                  <div className="mb-3">
-                    <label htmlFor="name" className="form-label">Name</label>
-                    <input type="text" className="form-control" id="name" name="name" value={bookingForm.name} onChange={handleBookingFormChange} required style={{ borderColor: '#083775' }} />
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="email" className="form-label">Email</label>
-                    <input type="email" className="form-control" id="email" name="email" value={bookingForm.email} onChange={handleBookingFormChange} required style={{ borderColor: '#083775' }} />
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="phone" className="form-label">Phone</label>
-                    <input type="tel" className="form-control" id="phone" name="phone" value={bookingForm.phone} onChange={handleBookingFormChange} required style={{ borderColor: '#083775' }} />
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="date" className="form-label">Preferred Date</label>
-                    <input type="date" className="form-control" id="date" name="date" value={bookingForm.date} onChange={handleBookingFormChange} min={minDate} required style={{ borderColor: '#083775' }} />
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="time" className="form-label">Preferred Time</label>
-                    <input type="time" className="form-control" id="time" name="time" value={bookingForm.time} onChange={handleBookingFormChange} min={minTime} required style={{ borderColor: '#083775' }} />
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-                    <button type="submit" className="btn btn-primary" style={{ backgroundColor: '#083775', border: 'none', padding: '10px 20px' }}>Book Now</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
+                    Book Property
+                  </Button>
+                  <IconButton
+                    onClick={() => handleRemove(property._id)}
+                    color="error"
+                  >
+                    <FaTrash />
+                  </IconButton>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
       )}
-    </>
+
+      <Dialog open={showBookingModal} onClose={() => setShowBookingModal(false)}>
+        <DialogTitle sx={{ backgroundColor: '#083775', color: 'white' }}>Book Property</DialogTitle>
+        <DialogContent>
+          <Box component="form" onSubmit={handleBookingSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2, padding: 2 }}>
+            <TextField
+              label="Name"
+              name="name"
+              value={bookingForm.name}
+              onChange={handleBookingFormChange}
+              fullWidth
+              required
+            />
+            <TextField
+              label="Email"
+              name="email"
+              value={bookingForm.email}
+              onChange={handleBookingFormChange}
+              fullWidth
+              required
+            />
+            <TextField
+              label="Phone"
+              name="phone"
+              value={bookingForm.phone}
+              onChange={handleBookingFormChange}
+              fullWidth
+              required
+            />
+            <TextField
+              label="Preferred Date"
+              name="date"
+              type="date"
+              value={bookingForm.date}
+              onChange={handleBookingFormChange}
+              fullWidth
+              required
+              InputLabelProps={{ shrink: true }}
+              inputProps={{ min: minDate }}
+            />
+            <TextField
+              label="Preferred Time"
+              name="time"
+              type="time"
+              value={bookingForm.time}
+              onChange={handleBookingFormChange}
+              fullWidth
+              required
+              InputLabelProps={{ shrink: true }}
+              inputProps={{ min: minTime }}
+            />
+            <DialogActions>
+              <Button type="submit" variant="contained" sx={{ backgroundColor: '#083775', color: 'white', '&:hover': { backgroundColor: '#062c59' } }}>
+                Book Now
+              </Button>
+              <Button onClick={() => setShowBookingModal(false)} sx={{ color: '#083775' }}>Cancel</Button>
+            </DialogActions>
+          </Box>
+        </DialogContent>
+      </Dialog>
+    </Container>
   );
 };
 
