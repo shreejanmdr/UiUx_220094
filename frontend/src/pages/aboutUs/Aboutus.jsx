@@ -4,9 +4,9 @@ import './Aboutus.css';
 
 const Aboutus = () => {
   return (
-    <Box pt={5} bgcolor="#f4f4f4" pb={5}>
+    <Box pt={10} mt={1} bgcolor="##F5F5F5" pb={5}>
       {/* Heading Section */}
-      <Box textAlign="center" mb={4}>
+      <Box textAlign="center" mb={4} mt={1} >
         <Typography variant="h3" color="primary" gutterBottom style={{ fontWeight: 'bold' }}>
           About Us
         </Typography>
