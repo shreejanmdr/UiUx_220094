@@ -56,7 +56,7 @@ const PropertyCard = ({ card }) => {
       <div className="property-details">
         <div className="price-container">
           <span className="price">
-            <span className="dollar">$</span>
+            <span className="currency">Rs </span>
             {card.propertyPrice.toLocaleString()}
           </span>
           {card.propertyStatus && (
