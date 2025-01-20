@@ -134,9 +134,9 @@ const AdminDashboard = () => {
 
   return (
     <Container>
-      <Typography variant="h4" gutterBottom>Admin Dashboard</Typography>
+      
 
-      <Grid container spacing={4} sx={{ mb: 4 }}>
+      <Grid container spacing={4} sx={{ mb: 4 ,mt: 1 }}>
         <Grid item xs={12} sm={4}>
           <Card sx={{ borderRadius: 3, boxShadow: 3 }}>
             <CardContent>
@@ -156,8 +156,8 @@ const AdminDashboard = () => {
         <Grid item xs={12} sm={4}>
           <Card sx={{ borderRadius: 3, boxShadow: 3 }}>
             <CardContent>
-              <Typography variant="h6">Properties Deleted</Typography>
-              <Typography variant="h4" color="error">{deletedPropertiesCount}</Typography>
+              <Typography variant="h6">Properties Sold</Typography>
+              <Typography variant="h4" color="warning">{deletedPropertiesCount}</Typography>
             </CardContent>
           </Card>
         </Grid>
@@ -198,7 +198,7 @@ const AdminDashboard = () => {
                 <TableCell>{property.propertyLocation}</TableCell>
                 <TableCell>
                   <Link to={`/admin/dashboard/update/${property._id}`} style={{ textDecoration: 'none' }}>
-                    <Button variant="outlined" color="primary" startIcon={<EditIcon />}>Edit</Button>
+                    <Button  color="primary" startIcon={<EditIcon />}></Button>
                   </Link>
                   <IconButton color="error" onClick={() => handleDelete(property._id)}>
                     <DeleteIcon />

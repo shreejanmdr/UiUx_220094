@@ -29,6 +29,7 @@ const AdminNavbar = () => {
           <Link to="/" style={{ textDecoration: 'none' }}>
             <img src="/assets/images/logo.png" alt="Logo" style={{ width: '80px', marginRight: '16px' }} />
           </Link>
+          <Typography variant="h4"  mt="5" color="#083775" bold   gutterBottom>Admin Dashboard</Typography>
           <Box flexGrow={1} />
           {user ? (
             <Box ml={2} display="flex" alignItems="center">
