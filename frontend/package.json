@@ -1,0 +1,70 @@
+{
+  "name": "ForRent_frontend_app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@auth0/auth0-react": "2.0.1",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mantine/core": "^7.15.3",
+    "@mantine/dates": "^7.15.3",
+    "@mantine/form": "^7.15.3",
+    "@mantine/hooks": "^7.15.3",
+    "@mui/icons-material": "^6.3.1",
+    "@mui/material": "^6.3.1",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.7.2",
+    "dayjs": "^1.11.13",
+    "esri-leaflet-geocoder": "2.3.3",
+    "framer-motion": "^10.8.5",
+    "khalti-checkout-web": "^2.2.0",
+    "leaflet": "^1.9.4",
+    "lodash": "^4.17.21",
+    "lucide-react": "^0.471.1",
+    "mockito": "^1.0.7",
+    "react": "^18.3.1",
+    "react-accessible-accordion": "^5.0.0",
+    "react-countup": "^6.4.2",
+    "react-dom": "^18.3.1",
+    "react-icons": "^5.4.0",
+    "react-leaflet": "4.2.1",
+    "react-material-ui-carousel": "^3.4.2",
+    "react-outside-click-handler": "^1.3.0",
+    "react-query": "^3.39.3",
+    "react-rating-stars-component": "^2.2.0",
+    "react-router-dom": "^6.23.1",
+    "react-scripts": "^5.0.1",
+    "react-spinners": "^0.13.8",
+    "react-toastify": "^10.0.5",
+    "sass": "^1.83.0",
+    "swiper": "^9.1.1",
+    "web-vitals": "^2.1.4",
+    "world-countries": "^4.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!axios)/\"",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

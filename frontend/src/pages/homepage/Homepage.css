@@ -1,0 +1,80 @@
+/* General body and html styles */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-y: auto; /* Allow vertical scrolling */
+}
+
+/* Ensure the container takes up enough height */
+.container {
+  min-height: 100vh; /* Ensures the container is at least the viewport height */
+  display: flex;
+  flex-direction: column; /* Arrange content in a column */
+  overflow: visible; /* Prevent clipping of content */
+}
+
+/* Carousel styles */
+.carousel {
+  margin-bottom: 20px; /* Add some space below the carousel */
+}
+
+/* Properties grid */
+.properties-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Add space between items */
+  justify-content: center; /* Center the content */
+  /* padding: 20px; */
+}
+
+/* Error and no-results messages */
+.error-message, .no-results {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 18px;
+  color: red;
+}
+
+/* Pagination styles */
+.pagination-nav {
+  margin: 20px 0; /* Add spacing above and below the pagination */
+  display: flex;
+  justify-content: center;
+}
+
+.pagination {
+  list-style: none;
+  display: flex;
+  gap: 10px;
+  padding: 0;
+}
+
+.page-item {
+  margin: 0;
+}
+
+.page-item button {
+  padding: 10px 15px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  background-color: white;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.page-item button:hover {
+  background-color: #083775;
+  color: white;
+}
+
+.page-item.disabled button {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.page-item.active button {
+  font-weight: bold;
+  background-color: #083775;
+  color: white;
+}

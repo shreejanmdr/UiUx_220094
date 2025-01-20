@@ -1,0 +1,140 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden; /* Prevents scrolling */
+}
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:100vh;
+    background: #f8f9fa;
+    padding-top: 120px;
+    
+}
+
+.login-box {
+    display: flex;
+    background: linear-gradient(to right, #fff 50%, #083775 50%);
+    width: 150px; /* Increased width */
+    height: 550px; /* Increased height */
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.login-form {
+    flex: 1;
+    padding: 50px; /* Increased padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #ffffff;
+}
+
+.login-form h2 {
+    color: #1e1e1e;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.login-form label {
+    color: #1e1e1e;
+    margin-bottom: 5px;
+}
+
+.login-form .form-control {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 5px;
+    background: #f8f9fa;
+    color: #000;
+}
+
+.login-button {
+    width: 100%;
+    padding: 15px; /* Increased padding */
+    background: #083775;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 18px; /* Increased font size */
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.login-button:hover {
+    background: #083775;
+}
+.forgot-password-text {
+    text-align: right;
+    margin-top: 10px;
+    color: #aaa;
+}
+
+.forgot-password-text a {
+    color: #083775;
+    text-decoration: none;
+}
+.social-login-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.social-login-container .or-text {
+    margin: 20px 0;
+    color: #aaa;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Add space between icons */
+}
+
+.social-icons img {
+    width: 40px; /* Adjust size as needed */
+    height: 40px; /* Adjust size as needed */
+    cursor: pointer;
+}
+
+.error-message {
+    color: #ff4d4d;
+    font-size: 16px;
+    margin-top: -20px;
+    margin-bottom: 10px;
+}
+
+.signup-text {
+    color: #aaa;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.signup-text a {
+    color: #083775;
+    text-decoration: none;
+}
+
+.welcome-text {
+    flex: 1;
+    background: #083775;
+    color: #fff;
+    padding: 50px; /* Increased padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.welcome-text img {
+    width: 50%;
+    height: auto;
+}
+.welcome-text p {
+    font-family: 'Times New Roman', Times, serif; /* Apply the font specifically to the paragraph */
+    font-size: 16px; /* Adjust font size as needed */
+}
