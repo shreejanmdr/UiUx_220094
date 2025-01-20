@@ -228,7 +228,7 @@ const Homepage = () => {
        <div id="carouselExampleCaptions" className="carousel slide" data-bs-ride="carousel">
          <div className="carousel-inner">
            <div className="carousel-item active">
-             <img src="/assets/images/carousel1.jpg" className="d-block w-85 h-30" alt="..." />
+           <img src="/assets/images/carousel1.jpg" className="d-block w-100 h-50" alt="..." />
              <div className="carousel-caption d-md-block">
                <h5>Hurry up and buy!</h5>
                <p>Don't miss the golden chance to own your dream property.</p>
