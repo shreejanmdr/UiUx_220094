@@ -139,7 +139,7 @@ const Login = () => {
               Welcome Back!
             </Typography>
             <motion.img
-              src="/assets/images/login-illustration.png"
+              src="/assets/images/login.png"
               alt="Login Illustration"
               style={{ width: "80%", maxWidth: 300 }}
               initial={{ scale: 0.8, opacity: 0 }}

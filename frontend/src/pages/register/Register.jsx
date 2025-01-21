@@ -116,7 +116,8 @@ const Register = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        minHeight: "100vh",
+        marginTop: "60px",
+        minHeight: "80vh",
         background: "linear-gradient(135deg, #6a11cb, #2575fc)",
         padding: 1,
       }}
@@ -135,7 +136,7 @@ const Register = () => {
             overflow: "hidden",
             maxWidth: 850,
             width: "100%",
-            height: "auto",
+            height: "80%",
           }}
         >
           {/* Left Section - Registration Form */}
@@ -160,12 +161,13 @@ const Register = () => {
             >
               Create Your Account
             </Typography>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} >
               <TextField
                 fullWidth
                 label="First Name"
                 variant="outlined"
                 margin="dense"
+                borderRadius= "30px"
                 value={firstName}
                 onChange={(e) => {
                   setFirstName(e.target.value);
@@ -359,12 +361,12 @@ const Register = () => {
             }}
           >
             <Typography variant="h4" gutterBottom>
-              Welcome!
+              Register Now
             </Typography>
             <motion.img
-              src="/assets/images/register-illustration.png"
+              src="/assets/images/register.png"
               alt="Register Illustration"
-              style={{ maxWidth: "70%", margin: "auto" }}
+              style={{ maxWidth: "150%", margin: "" }}
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 1 }}
@@ -377,7 +379,7 @@ const Register = () => {
                 fontWeight: "bold",
               }}
             >
-              Join us to find your dream home. Create an account now!
+              Join us to find your dream home.<p></p> Create an account now!
             </Typography>
           </Box>
         </Paper>
