@@ -77,30 +77,30 @@ const Homepage = () => {
           style={{ height: "400px", overflow: "hidden" }}
         >
           {/* Slide 1 */}
-          <div className="carousel-item active">
+          <div className="carousel-item active" style={{ marginTop: "64px" }}>
             <img
-              src="/assets/images/c1.png"
+              src="/assets/images/2.png"
               className="d-block w-100"
               alt="..."
               style={{ height: "100%", objectFit: "cover" }}
             />
             <div className="carousel-caption d-md-block">
-              <h5>Hurry up and buy!</h5>
-              <p>Don't miss the golden chance to own your dream property.</p>
+              {/* <h5>Hurry up and buy!</h5>
+              <p>Don't miss the golden chance to own your dream property.</p> */}
             </div>
           </div>
 
           {/* Slide 2 */}
-          <div className="carousel-item">
+          <div className="carousel-item" style={{ marginTop: "64px" }}>
             <img
-              src="/assets/images/c2.png"
+              src="/assets/images/3.png"
               className="d-block w-100"
               alt="..."
               style={{ height: "100%", objectFit: "cover" }}
             />
             <div className="carousel-caption d-md-block">
-              <h5>Best Rate in the Market!</h5>
-              <p>Explore properties at unbeatable prices.</p>
+              {/* <h5>Best Rate in the Market!</h5>
+              <p>Explore properties at unbeatable prices.</p> */}
             </div>
           </div>
 
