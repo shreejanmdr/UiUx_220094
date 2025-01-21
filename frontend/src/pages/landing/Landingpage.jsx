@@ -74,7 +74,7 @@ const Landingpage = () => {
                 <Grid item xs={12} sm={6}>
                   <Box
                     sx={{
-                      backgroundColor: "#083775",
+                      backgroundColor: "#0B5DC7FF",
                       color: "#fff",
                       padding: 2,
                       borderRadius: "8px",
@@ -98,7 +98,7 @@ const Landingpage = () => {
                 <Grid item xs={12} sm={6}>
                   <Box
                     sx={{
-                      backgroundColor: "#2E3A59",
+                      backgroundColor: "#1B2D5AFF",
                       color: "#fff",
                       padding: 2,
                       borderRadius: "8px",
