@@ -1,26 +1,27 @@
+
+
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { loginUserApi } from "../../apis/Api";
 import {
   Box,
+  Typography,
   TextField,
   Button,
-  Typography,
+  InputAdornment,
+  IconButton,
   Paper,
   Divider,
   CircularProgress,
-  InputAdornment,
-  IconButton,
   Checkbox,
   FormControlLabel,
 } from "@mui/material";
-import { motion } from "framer-motion";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import GoogleIcon from "@mui/icons-material/Google";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import "./Login.css";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import GoogleIcon from "@mui/icons-material/Google";
+import { motion } from "framer-motion";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { loginUserApi } from "../../apis/Api";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -28,9 +29,8 @@ const Login = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const Login = () => {
     }
   }, []);
 
-  const validation = () => {
+  const validate = () => {
     let isValid = true;
 
     if (email.trim() === "" || !email.includes("@")) {
@@ -54,21 +54,17 @@ const Login = () => {
       setPasswordError("Password is empty");
       isValid = false;
     }
+
     return isValid;
   };
 
   const handleLogin = (e) => {
     e.preventDefault();
 
-    if (!validation()) {
-      return;
-    }
+    if (!validate()) return;
 
     setLoading(true);
-    const data = {
-      email,
-      password,
-    };
+    const data = { email, password };
 
     loginUserApi(data)
       .then((res) => {
@@ -86,11 +82,7 @@ const Login = () => {
             localStorage.removeItem("rememberedEmail");
           }
 
-          if (res.data.userData.isAdmin) {
-            window.location.href = "/admin/dashboard";
-          } else {
-            window.location.href = "/homepage";
-          }
+          navigate(res.data.userData.isAdmin ? "/admin/dashboard" : "/homepage");
         }
       })
       .catch(() => {
@@ -105,177 +97,208 @@ const Login = () => {
 
   return (
     <Box
-      className="login-container"
-      component={motion.div}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      style={{
+      sx={{
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         minHeight: "100vh",
-        backgroundColor: "#f0f4f8",
+        background: "linear-gradient(135deg, #6a11cb, #2575fc)",
+        padding: 2,
       }}
     >
-      <Paper
-        className="login-box"
-        elevation={6}
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          overflow: "hidden",
-          borderRadius: "16px",
-          width: "900px",
-        }}
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        <Box
-          className="login-form"
+        <Paper
+          elevation={10}
           sx={{
-            flex: 1,
-            p: 4,
             display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            background: "#fff",
+            flexDirection: { xs: "column", md: "row" },
+            borderRadius: "16px",
+            overflow: "hidden",
+            maxWidth: 900,
+            width: "100%",
           }}
         >
-          <Typography variant="h4" textAlign="center" gutterBottom>
-            Login
-          </Typography>
+          {/* Left Section */}
           <Box
-            component="form"
-            noValidate
-            autoComplete="off"
-            onSubmit={handleLogin}
+            sx={{
+              flex: 1,
+              background: "linear-gradient(135deg, #1976d2, #083775)",
+              color: "white",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: 4,
+            }}
           >
-            <TextField
-              fullWidth
-              label="Email Address"
-              variant="outlined"
-              margin="normal"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                setEmailError("");
-              }}
-              error={!!emailError}
-              helperText={emailError}
+            <Typography variant="h4" sx={{ fontWeight: "bold", mb: 2 }}>
+              Welcome Back!
+            </Typography>
+            <motion.img
+              src="/assets/images/login-illustration.png"
+              alt="Login Illustration"
+              style={{ width: "80%", maxWidth: 300 }}
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 1 }}
             />
-            <TextField
-              fullWidth
-              label="Password"
-              type={showPassword ? "text" : "password"} // Dynamically change input type
-              variant="outlined"
-              margin="normal"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-                setPasswordError("");
-              }}
-              error={!!passwordError}
-              helperText={passwordError}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={togglePasswordVisibility} edge="end">
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                  color="primary"
-                />
-              }
-              label="Remember Me"
-              sx={{ mt: 2 }}
-            />
-
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              size="large"
-              type="submit"
-              sx={{ mt: 2, mb: 2 }}
-              disabled={loading}
+            <Typography
+              variant="body1"
+              sx={{ textAlign: "center", mt: 2, fontSize: "1rem" }}
             >
-              {loading ? <CircularProgress size={24} color="inherit" /> : "Login"}
-            </Button>
+              Explore the easiest way to find your dream rental. Log in to
+              continue.
+            </Typography>
+          </Box>
 
-            <Typography textAlign="right" color="textSecondary">
-              <a href="/forgot_password" style={{ textDecoration: "none", color: "#1976d2" }}>
+          {/* Right Section */}
+          <Box
+            sx={{
+              flex: 1,
+              padding: 4,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              backgroundColor: "#f9f9f9",
+            }}
+          >
+            <Typography
+              variant="h5"
+              sx={{
+                fontWeight: "bold",
+                mb: 2,
+                textAlign: "center",
+                color: "#083775",
+              }}
+            >
+              Login to Your Account
+            </Typography>
+            <form onSubmit={handleLogin}>
+              <TextField
+                fullWidth
+                label="Email Address"
+                variant="outlined"
+                margin="normal"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setEmailError("");
+                }}
+                error={!!emailError}
+                helperText={emailError}
+                InputProps={{
+                  style: { borderRadius: "30px" },
+                }}
+              />
+              <TextField
+                fullWidth
+                label="Password"
+                type={showPassword ? "text" : "password"}
+                variant="outlined"
+                margin="normal"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setPasswordError("");
+                }}
+                error={!!passwordError}
+                helperText={passwordError}
+                InputProps={{
+                  style: { borderRadius: "30px" },
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={togglePasswordVisibility}>
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                    color="primary"
+                  />
+                }
+                label="Remember Me"
+                sx={{ mt: 1 }}
+              />
+              <Button
+                fullWidth
+                type="submit"
+                variant="contained"
+                sx={{
+                  mt: 3,
+                  borderRadius: "30px",
+                  background: "linear-gradient(135deg, #6a11cb, #2575fc)",
+                  "&:hover": { background: "#2575fc" },
+                }}
+                disabled={loading}
+              >
+                {loading ? (
+                  <CircularProgress size={24} color="inherit" />
+                ) : (
+                  "Login"
+                )}
+              </Button>
+            </form>
+            <Typography
+              textAlign="right"
+              sx={{ mt: 1, color: "gray", fontSize: "0.9rem" }}
+            >
+              <a
+                href="/forgot_password"
+                style={{ color: "#1976d2", textDecoration: "none" }}
+              >
                 Forgot your password?
               </a>
             </Typography>
+            <Divider sx={{ my: 2 }}>or</Divider>
+            <Box display="flex" justifyContent="center" gap={2}>
+              <Button
+                startIcon={<FacebookIcon />}
+                variant="outlined"
+                color="primary"
+              >
+                Facebook
+              </Button>
+              <Button
+                startIcon={<GoogleIcon />}
+                variant="outlined"
+                color="error"
+              >
+                Google
+              </Button>
+            </Box>
+            <Typography
+              variant="body2"
+              sx={{
+                mt: 2,
+                textAlign: "center",
+                color: "gray",
+              }}
+            >
+              Don't have an account?{" "}
+              <a
+                href="/register"
+                style={{
+                  color: "#6a11cb",
+                  textDecoration: "none",
+                  fontWeight: "bold",
+                }}
+              >
+                Sign Up
+              </a>
+            </Typography>
           </Box>
-          <Divider sx={{ my: 2 }}>or</Divider>
-          <Box
-            className="social-login-container"
-            display="flex"
-            justifyContent="center"
-            gap={2}
-          >
-            <Button
-              startIcon={<FacebookIcon />}
-              variant="outlined"
-              color="primary"
-            >
-              Facebook
-            </Button>
-            <Button
-              startIcon={<GoogleIcon />}
-              variant="outlined"
-              color="error"
-            >
-              Google
-            </Button>
-          </Box>
-
-          <Typography textAlign="center" mt={3} color="textSecondary">
-            Don’t have an account?{" "}
-            <a
-              href="/register"
-              style={{ textDecoration: "none", color: "#1976d2" }}
-            >
-              Sign Up
-            </a>
-          </Typography>
-        </Box>
-        <Box
-          className="welcome-text"
-          sx={{
-            flex: 1,
-            background: "linear-gradient(135deg, #1976d2, #083775)",
-            color: "#fff",
-            p: 4,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            textAlign: "center",
-          }}
-        >
-          <Typography variant="h4" gutterBottom>
-            WELCOME BACK!
-          </Typography>
-          <img
-            src="/assets/images/loginpage.png"
-            alt="Welcome"
-            style={{ maxWidth: "80%", margin: "auto" }}
-          />
-          <Typography mt={2}>
-            Hey there, please login to your account to continue Estate Ease!
-            Always remember us if you're finding a home.
-          </Typography>
-        </Box>
-      </Paper>
+        </Paper>
+      </motion.div>
     </Box>
   );
 };

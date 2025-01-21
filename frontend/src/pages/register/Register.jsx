@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-import { toast } from 'react-toastify';
-import { registerUserApi } from '../../apis/Api';
+import React, { useState } from "react";
 import {
   Box,
   TextField,
@@ -8,64 +6,72 @@ import {
   Typography,
   Paper,
   Divider,
-  Grid,
   CircularProgress,
-} from '@mui/material';
-import { motion } from 'framer-motion';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import GoogleIcon from '@mui/icons-material/Google';
+  InputAdornment,
+} from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import PersonIcon from "@mui/icons-material/Person";
+import EmailIcon from "@mui/icons-material/Email";
+import LockIcon from "@mui/icons-material/Lock";
+import PhoneIcon from "@mui/icons-material/Phone";
+import { motion } from "framer-motion";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import GoogleIcon from "@mui/icons-material/Google";
+import { toast } from "react-toastify";
+import { registerUserApi } from "../../apis/Api";
 
 const Register = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [phone, setPhone] = useState('');
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [phone, setPhone] = useState("");
 
-  const [firstNameError, setFirstNameError] = useState('');
-  const [lastNameError, setLastNameError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [confirmPasswordError, setConfirmPasswordError] = useState('');
-  const [phoneError, setPhoneError] = useState('');
+  const [firstNameError, setFirstNameError] = useState("");
+  const [lastNameError, setLastNameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [phoneError, setPhoneError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const validate = () => {
     let isValid = true;
 
-    if (firstName.trim() === '') {
-      setFirstNameError('First name is required!');
+    if (firstName.trim() === "") {
+      setFirstNameError("First name is required!");
       isValid = false;
     }
 
-    if (lastName.trim() === '') {
-      setLastNameError('Last name is required!');
+    if (lastName.trim() === "") {
+      setLastNameError("Last name is required!");
       isValid = false;
     }
 
-    if (email.trim() === '') {
-      setEmailError('Email is required!');
+    if (email.trim() === "") {
+      setEmailError("Email is required!");
       isValid = false;
     }
 
-    if (phone.trim() === '') {
-      setPhoneError('Phone number is required!');
+    if (phone.trim() === "") {
+      setPhoneError("Phone number is required!");
       isValid = false;
     }
 
-    if (password.trim() === '') {
-      setPasswordError('Password is required!');
+    if (password.trim() === "") {
+      setPasswordError("Password is required!");
       isValid = false;
     }
 
-    if (confirmPassword.trim() === '') {
-      setConfirmPasswordError('Confirm password is required!');
+    if (confirmPassword.trim() === "") {
+      setConfirmPasswordError("Confirm password is required!");
       isValid = false;
     }
 
     if (confirmPassword.trim() !== password.trim()) {
-      setConfirmPasswordError('Password and confirm password do not match');
+      setConfirmPasswordError("Password and confirm password do not match");
       isValid = false;
     }
 
@@ -106,141 +112,205 @@ const Register = () => {
 
   return (
     <Box
-      className="register-container"
-      component={motion.div}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
       sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '100vh',
-        backgroundColor: '#f4f6f9',
-        py: 5,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #6a11cb, #2575fc)",
+        padding: 1,
       }}
     >
-      <Paper
-        className="register-box"
-        elevation={6}
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          overflow: 'hidden',
-          borderRadius: '16px',
-          width: { xs: '95%', md: '80%' },
-          maxWidth: '1000px',
-        }}
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        <Grid container>
-          <Grid item xs={12} md={6} sx={{ p: 4 }}>
-            <Typography variant="h4" textAlign="center" gutterBottom>
-              Welcome!
+        <Paper
+          elevation={10}
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            borderRadius: "16px",
+            overflow: "hidden",
+            maxWidth: 850,
+            width: "100%",
+            height: "auto",
+          }}
+        >
+          {/* Left Section - Registration Form */}
+          <Box
+            sx={{
+              flex: 1,
+              padding: 4,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              backgroundColor: "#f9f9f9",
+            }}
+          >
+            <Typography
+              variant="h6"
+              sx={{
+                fontWeight: "bold",
+                mb: 1,
+                textAlign: "center",
+                color: "#083775",
+              }}
+            >
+              Create Your Account
             </Typography>
-            <Typography variant="h6" textAlign="center" gutterBottom>
-              Let’s create an account!
-            </Typography>
-            <Box component="form" noValidate autoComplete="off" onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
               <TextField
                 fullWidth
                 label="First Name"
                 variant="outlined"
-                margin="normal"
+                margin="dense"
                 value={firstName}
                 onChange={(e) => {
                   setFirstName(e.target.value);
-                  setFirstNameError('');
+                  setFirstNameError("");
                 }}
                 error={!!firstNameError}
                 helperText={firstNameError}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <PersonIcon />
+                    </InputAdornment>
+                  ),
+                }}
               />
               <TextField
                 fullWidth
                 label="Last Name"
                 variant="outlined"
-                margin="normal"
+                margin="dense"
                 value={lastName}
                 onChange={(e) => {
                   setLastName(e.target.value);
-                  setLastNameError('');
+                  setLastNameError("");
                 }}
                 error={!!lastNameError}
                 helperText={lastNameError}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <PersonIcon />
+                    </InputAdornment>
+                  ),
+                }}
               />
               <TextField
                 fullWidth
-                label="Email"
+                label="Email Address"
                 type="email"
                 variant="outlined"
-                margin="normal"
+                margin="dense"
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
-                  setEmailError('');
+                  setEmailError("");
                 }}
                 error={!!emailError}
                 helperText={emailError}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <EmailIcon />
+                    </InputAdornment>
+                  ),
+                }}
               />
               <TextField
                 fullWidth
-                label="Phone"
+                label="Phone Number"
                 type="tel"
                 variant="outlined"
-                margin="normal"
+                margin="dense"
                 value={phone}
                 onChange={(e) => {
                   setPhone(e.target.value);
-                  setPhoneError('');
+                  setPhoneError("");
                 }}
                 error={!!phoneError}
                 helperText={phoneError}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <PhoneIcon />
+                    </InputAdornment>
+                  ),
+                }}
               />
               <TextField
                 fullWidth
                 label="Password"
                 type="password"
                 variant="outlined"
-                margin="normal"
+                margin="dense"
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
-                  setPasswordError('');
+                  setPasswordError("");
                 }}
                 error={!!passwordError}
                 helperText={passwordError}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LockIcon />
+                    </InputAdornment>
+                  ),
+                }}
               />
               <TextField
                 fullWidth
                 label="Confirm Password"
                 type="password"
                 variant="outlined"
-                margin="normal"
+                margin="dense"
                 value={confirmPassword}
                 onChange={(e) => {
                   setConfirmPassword(e.target.value);
-                  setConfirmPasswordError('');
+                  setConfirmPasswordError("");
                 }}
                 error={!!confirmPasswordError}
                 helperText={confirmPasswordError}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LockIcon />
+                    </InputAdornment>
+                  ),
+                }}
               />
               <Button
                 fullWidth
-                variant="contained"
-                color="primary"
-                size="large"
                 type="submit"
-                sx={{ mt: 2, mb: 2 }}
+                variant="contained"
+                sx={{
+                  mt: 2,
+                  borderRadius: "30px",
+                  background: "linear-gradient(135deg, #6a11cb, #2575fc)",
+                  "&:hover": { background: "#2575fc" },
+                }}
                 disabled={loading}
               >
-                {loading ? <CircularProgress size={24} color="inherit" /> : 'Register'}
+                {loading ? (
+                  <CircularProgress size={24} color="inherit" />
+                ) : (
+                  "Register"
+                )}
               </Button>
-            </Box>
-            <Divider sx={{ my: 2 }}>or</Divider>
-            <Box display="flex" justifyContent="center" gap={2}>
+            </form>
+            <Divider sx={{ my: 1 }} />
+            <Box display="flex" justifyContent="center" gap={1}>
               <Button
                 startIcon={<FacebookIcon />}
                 variant="outlined"
                 color="primary"
+                size="small"
               >
                 Facebook
               </Button>
@@ -248,42 +318,70 @@ const Register = () => {
                 startIcon={<GoogleIcon />}
                 variant="outlined"
                 color="error"
+                size="small"
               >
                 Google
               </Button>
             </Box>
-            <Typography textAlign="center" mt={3}>
-              Already have an account? <a href="/login" style={{ textDecoration: 'none', color: '#1976d2' }}>Login</a>
+            <Typography
+              variant="body2"
+              sx={{
+                mt: 1,
+                textAlign: "center",
+                color: "gray",
+              }}
+            >
+              Already have an account?{" "}
+              <a
+                href="/login"
+                style={{
+                  color: "#6a11cb",
+                  textDecoration: "none",
+                  fontWeight: "bold",
+                }}
+              >
+                Login
+              </a>
             </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            md={6}
+          </Box>
+
+          {/* Right Section - Illustration */}
+          <Box
             sx={{
-              background: 'linear-gradient(135deg, #1976d2, #083775)',
-              color: '#fff',
-              p: 4,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
+              flex: 1,
+              background: "linear-gradient(135deg, #1976d2, #083775)",
+              color: "#fff",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: 4,
             }}
           >
             <Typography variant="h4" gutterBottom>
               Welcome!
             </Typography>
-            <img
-              src="/assets/images/loginpage.png"
-              alt="Register"
-              style={{ maxWidth: '80%', margin: 'auto', marginTop: '20px' }}
+            <motion.img
+              src="/assets/images/register-illustration.png"
+              alt="Register Illustration"
+              style={{ maxWidth: "70%", margin: "auto" }}
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 1 }}
             />
-            <Typography mt={2} textAlign="center">
+            <Typography
+              mt={2}
+              textAlign="center"
+              sx={{
+                fontSize: "1rem",
+                fontWeight: "bold",
+              }}
+            >
               Join us to find your dream home. Create an account now!
             </Typography>
-          </Grid>
-        </Grid>
-      </Paper>
+          </Box>
+        </Paper>
+      </motion.div>
     </Box>
   );
 };
