@@ -136,7 +136,7 @@ const Wishlist = () => {
           Your wishlist is empty.
         </Typography>
       ) : (
-        <Grid container spacing={3} justifyContent="center">
+        <Grid container spacing={2} justifyContent="center">
           {wishlist.map((property) => (
             <Grid item xs={12} sm={6} md={4} key={property._id}>
               <Card sx={{ boxShadow: 3, borderRadius: 2 }}>

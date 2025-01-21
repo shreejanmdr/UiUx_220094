@@ -139,13 +139,13 @@ const Homepage = () => {
       </div>
 
       {/* Search and Sort Section */}
-      <Container maxWidth="lg" sx={{ mb: 4, mt: 4 }}>
+      <Container maxWidth="" sx={{ mb: 4, mt: 2 }}>
         <Grid container spacing={2} alignItems="center">
           <Grid item xs={12} md={6}>
             <TextField
               fullWidth
               variant="outlined"
-              placeholder="Search by area or property ID..."
+              placeholder="Search a property ..."
               value={searchQuery}
               onChange={handleSearchChange}
               InputProps={{
@@ -173,11 +173,11 @@ const Homepage = () => {
       </Container>
 
       {/* Property Cards Section */}
-      <Container maxWidth="lg">
-        <Typography variant="h4" color="primary" gutterBottom>
+      <Container maxWidth="">
+        <Typography variant="h4"  style={{ marginTop: "1px" }} color="primary" gutterBottom>
           Discover Your Dream Property
         </Typography>
-        <Grid container spacing={4}>
+        <Grid container spacing={2}>
           {error ? (
             <Typography color="error" variant="body1" align="center">
               {error}
@@ -197,7 +197,7 @@ const Homepage = () => {
       </Container>
 
       {/* Pagination Section */}
-      <Box mt={4} display="flex" justifyContent="center">
+      <Box mt={2} display="flex" justifyContent="center">
         <Pagination
           count={totalPages}
           page={page}
