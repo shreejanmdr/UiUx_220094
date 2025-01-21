@@ -126,7 +126,7 @@ const Wishlist = () => {
   };
 
   return (
-    <Container sx={{ marginTop: 5, marginBottom: 5 }}>
+    <Container sx={{ marginTop: 10, marginBottom: 5 }}>
       <Typography variant="h4" gutterBottom textAlign="center" sx={{ fontWeight: 'bold', color: '#083775' }}>
         My Wishlist
       </Typography>
