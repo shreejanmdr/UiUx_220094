@@ -1,20 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Container, Typography, Grid, Card, CardContent, CardMedia, Button, TextField, IconButton } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import SortIcon from '@mui/icons-material/Sort';
-import Pagination from '@mui/material/Pagination';
-import { getPropertyCount, propertyPagination } from '../../apis/Api';
-import PropertyCard from '../../components/PropertyCarda';
-import Carousel from 'react-material-ui-carousel';
-import './Homepage.css';
+
+
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Container,
+  Typography,
+  Grid,
+  Button,
+  TextField,
+  IconButton,
+} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import SortIcon from "@mui/icons-material/Sort";
+import Pagination from "@mui/material/Pagination";
+import { getPropertyCount, propertyPagination } from "../../apis/Api";
+import PropertyCard from "../../components/PropertyCarda";
+
 
 const Homepage = () => {
   const [properties, setProperties] = useState([]);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
   const limit = 8;
 
   useEffect(() => {
@@ -28,7 +37,7 @@ const Homepage = () => {
       const count = res.data.propertyCount;
       setTotalPages(Math.ceil(count / limit));
     } catch (err) {
-      setError(err.response?.data?.message || 'Error fetching property count');
+      setError(err.response?.data?.message || "Error fetching property count");
     }
   };
 
@@ -37,7 +46,7 @@ const Homepage = () => {
       const res = await propertyPagination(pageNum, limit, query, sort);
       setProperties(res.data.property || []);
     } catch (err) {
-      setError(err.response?.data?.message || 'Error fetching properties');
+      setError(err.response?.data?.message || "Error fetching properties");
     }
   };
 
@@ -57,41 +66,80 @@ const Homepage = () => {
 
   return (
     <Box bgcolor="#f9f9f9" minHeight="100vh">
+      {/* Carousel */}
+      <div
+        id="carouselExampleCaptions"
+        className="carousel slide"
+        data-bs-ride="carousel"
+      >
+        <div
+          className="carousel-inner"
+          style={{ height: "400px", overflow: "hidden" }}
+        >
+          {/* Slide 1 */}
+          <div className="carousel-item active">
+            <img
+              src="/assets/images/c1.png"
+              className="d-block w-100"
+              alt="..."
+              style={{ height: "100%", objectFit: "cover" }}
+            />
+            <div className="carousel-caption d-md-block">
+              <h5>Hurry up and buy!</h5>
+              <p>Don't miss the golden chance to own your dream property.</p>
+            </div>
+          </div>
 
-       {/* Carousel */}
-       <div id="carouselExampleCaptions" className="carousel slide" data-bs-ride="carousel">
-         <div className="carousel-inner">
-           <div className="carousel-item active">
-           <img src="/assets/images/carousel1.jpg" className="d-block w-100 h-50" alt="..." />
-             <div className="carousel-caption d-md-block">
-               <h5>Hurry up and buy!</h5>
-               <p>Don't miss the golden chance to own your dream property.</p>
-             </div>
-           </div>
-           <div className="carousel-item" >
-             <img src="/assets/images/carousel2.jpg" className="d-block w-85 h-30" alt="..." />
-             <div className="carousel-caption d-md-block">
-               <h5>Best Rate in the Market!</h5>
-               <p>Explore properties at unbeatable prices.</p>
-             </div>
-          </div>
+          {/* Slide 2 */}
           <div className="carousel-item">
-            <img src="/assets/images/carousel3.jpg" className="d-block w-85 h-30" alt="..." />             <div className="carousel-caption d-md-block">
-               <h5>Limited Time Offers!</h5>
-              <p>Book your flats at the best price today!</p>
-             </div>
+            <img
+              src="/assets/images/c2.png"
+              className="d-block w-100"
+              alt="..."
+              style={{ height: "100%", objectFit: "cover" }}
+            />
+            <div className="carousel-caption d-md-block">
+              <h5>Best Rate in the Market!</h5>
+              <p>Explore properties at unbeatable prices.</p>
+            </div>
           </div>
-         </div>
-         <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">           <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-       </button>
-       <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+
+          {/* Slide 3 */}
+          <div className="carousel-item " style={{ marginTop: "64px" }} >
+            <img
+              src="/assets/images/cc.png"
+              className="d-block w-100 h-30"
+              alt="..."
+              style={{ height: "100%", objectFit: "fit" }}
+            />
+            <div className="carousel-caption d-md-block">
+              {/* <h5>Limited Time Offers!</h5>
+              <p>Book your flats at the best price today!</p> */}
+            </div>
+          </div>
+        </div>
+
+        {/* Carousel Controls */}
+        <button
+          className="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExampleCaptions"
+          data-bs-slide="prev"
+        >
+          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+        </button>
+        <button
+          className="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExampleCaptions"
+          data-bs-slide="next"
+        >
           <span className="carousel-control-next-icon" aria-hidden="true"></span>
-       </button>
+        </button>
       </div>
 
-
       {/* Search and Sort Section */}
-      <Container maxWidth="lg" sx={{ mb: 4 }}>
+      <Container maxWidth="lg" sx={{ mb: 4, mt: 4 }}>
         <Grid container spacing={2} alignItems="center">
           <Grid item xs={12} md={6}>
             <TextField
@@ -113,8 +161,10 @@ const Homepage = () => {
             <Button
               variant="outlined"
               startIcon={<SortIcon />}
-              onClick={() => handleSortOrderChange(sortOrder === 'asc' ? 'desc' : 'asc')}
-              style={{ textTransform: 'none', padding: '10px 20px' }}
+              onClick={() =>
+                handleSortOrderChange(sortOrder === "asc" ? "desc" : "asc")
+              }
+              style={{ textTransform: "none", padding: "10px 20px" }}
             >
               Sort by Price
             </Button>
@@ -148,7 +198,12 @@ const Homepage = () => {
 
       {/* Pagination Section */}
       <Box mt={4} display="flex" justifyContent="center">
-        <Pagination count={totalPages} page={page} onChange={handlePagination} color="primary" />
+        <Pagination
+          count={totalPages}
+          page={page}
+          onChange={handlePagination}
+          color="primary"
+        />
       </Box>
     </Box>
   );
