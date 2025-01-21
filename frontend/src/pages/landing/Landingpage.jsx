@@ -20,7 +20,7 @@ const Landingpage = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        backgroundImage: `url('/assets/images/bg3.png')`,
+        backgroundImage: `url('/assets/images/bg4.png')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
@@ -50,7 +50,7 @@ const Landingpage = () => {
                   fontSize: { xs: "2rem", md: "3rem" },
                 }}
               >
-                About ForRent Apartment Rentals
+                ForRent<p></p> Property Rentals
               </Typography>
               <Typography
                 variant="body1"
@@ -149,45 +149,7 @@ const Landingpage = () => {
             </Box>
           </Grid>
 
-          {/* Right Section */}
-          <Grid
-            item
-            xs={12}
-            md={6}
-            component={motion.div}
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-            sx={{
-              mt: { xs: 2, md: -8 },
-            }}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Card
-                  sx={{
-                    borderRadius: "16px",
-                    boxShadow: 3,
-                    overflow: "hidden",
-                  }}
-                >
-                  <CardMedia
-                    component="img"
-                    image="/assets/images/carousel1.jpg"
-                    alt="Living Room"
-                    sx={{
-                      maxWidth: "100%",
-                      height: "auto",
-                      transition: "transform 0.3s ease",
-                      "&:hover": {
-                        transform: "scale(1.05)",
-                      },
-                    }}
-                  />
-                </Card>
-              </Grid>
-            </Grid>
-          </Grid>
+        
         </Grid>
       </Container>
     </Box>
